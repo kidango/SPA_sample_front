@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Button } from "@mui/material";
+import axios from 'axios';
 
 function App() {
+  const [users, setUsers] = useState([]);
+  const usersList = users.map((user) =>
+    <li key={user.email}>
+      {user.username}
+    </li>
+  )
+
+  function getUsers() {
+    axios.get('http://localhost:8000/users',
+      { auth: {
+        username: 'admin',
+        password: 'password123'
+      }})
+    .then(response => {
+      setUsers(response.data.results);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Button variant="contained" onClick={getUsers}>Get Users</Button>
+      <ul>{usersList}</ul>
+    </>
   );
 }
 
