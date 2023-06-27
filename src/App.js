@@ -11,7 +11,7 @@ function App() {
   )
 
   function getUsers() {
-    axios.get('http://localhost:8000/users',
+    axios.get('http://52.1.97.162:8000/users/',
       { auth: {
         username: 'admin',
         password: 'password123'
